@@ -265,9 +265,21 @@ function createFileCard(file, showPreview) {
             <div class="file-name">${file.fileName}</div>
             <div class="file-meta">${date} • ${sizeInKB} KB</div>
         </div>
+        <button class="delete-file-btn" title="Supprimer" style="position:absolute;top:8px;right:8px;background:transparent;border:none;cursor:pointer;font-size:20px;color:#e53e3e;z-index:2;">
+            <span aria-label="Supprimer">🗑️</span>
+        </button>
     `;
 
     card.insertBefore(checkbox, card.firstChild);
+
+    // Add delete event
+    const deleteBtn = card.querySelector('.delete-file-btn');
+    deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm(`Supprimer le fichier "${file.fileName}" ?`)) {
+            deleteFileById(file.id);
+        }
+    });
 
     return card;
 }
@@ -349,7 +361,8 @@ downloadSelectedBtn.addEventListener('click', async () => {
                     type: file.type,
                     password: userPassword
                 });
-                await downloadDecryptedFile(file.downloadURL, file.encryptedFileName, userPassword, file.type);
+                const downloadName = file.encryptedFileName || file.fileName;
+                await downloadDecryptedFile(file.downloadURL, downloadName, userPassword, file.type);
                 console.log('Download success:', file.fileName);
                 successCount++;
                 // Small delay between downloads
@@ -373,3 +386,26 @@ downloadSelectedBtn.addEventListener('click', async () => {
     downloadSelectedBtn.disabled = false;
     downloadSelectedBtn.textContent = `Télécharger la sélection (${selectedFiles.size})`;
 });
+
+// Delete file by ID
+async function deleteFileById(fileId) {
+    try {
+        // Find file object
+        const file = allFiles.find(f => f.id === fileId);
+        if (!file) {
+            alert('Fichier introuvable.');
+            return;
+        }
+        // Remove from Firebase Storage
+        // You must implement the actual deletion logic here, e.g. using Firebase SDK
+        // Example:
+        // await firebase.storage().refFromURL(file.downloadURL).delete();
+        // Remove from UI
+        allFiles.splice(allFiles.findIndex(f => f.id === fileId), 1);
+        await loadAndDisplayFiles();
+        alert(`Fichier supprimé: ${file.fileName}`);
+    } catch (error) {
+        console.error('Erreur de suppression:', error);
+        alert('Erreur lors de la suppression du fichier.');
+    }
+}

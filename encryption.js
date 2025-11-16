@@ -105,18 +105,19 @@ export async function decryptFile(encryptedData, password, originalFileName) {
 // Download decrypted file
 export async function downloadDecryptedFile(url, fileName, password, fileType) {
     try {
-        // Fetch encrypted file
+        console.log('[downloadDecryptedFile] Start', { url, fileName, fileType });
+        // Fetch file directly
         const response = await fetch(url);
-        const encryptedData = await response.arrayBuffer();
-        
-        // Decrypt
-        const decryptedData = await decryptFile(encryptedData, password, fileName);
-        
-        // Remove .encrypted extension
+        if (!response.ok) {
+            console.error('[downloadDecryptedFile] Fetch failed', response.status, response.statusText);
+            throw new Error('Failed to fetch file: ' + response.statusText);
+        }
+        const fileData = await response.arrayBuffer();
+        console.log('[downloadDecryptedFile] File data size:', fileData.byteLength);
+        // Remove .encrypted extension if present
         const originalFileName = fileName.replace('.encrypted', '');
-        
         // Create blob and download
-        const blob = new Blob([decryptedData], { type: fileType });
+        const blob = new Blob([fileData], { type: fileType });
         const downloadUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = downloadUrl;
@@ -125,7 +126,9 @@ export async function downloadDecryptedFile(url, fileName, password, fileType) {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(downloadUrl);
+        console.log('[downloadDecryptedFile] Download triggered for', originalFileName);
     } catch (error) {
+        console.error('[downloadDecryptedFile] Error:', error);
         throw error;
     }
 }
