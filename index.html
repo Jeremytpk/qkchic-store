@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockage de Fichiers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="loginSection" class="section">
+        <div class="container">
+            <h1>Stockage de Fichiers</h1>
+            <div class="auth-form">
+                <h2>Connexion</h2>
+                <input type="email" id="loginEmail" placeholder="E-mail" />
+                <input type="password" id="loginPassword" placeholder="Mot de passe" />
+                <button id="loginBtn">Se connecter</button>
+                <p>Vous n'avez pas de compte ? <a href="#" id="showSignup">S'inscrire</a></p>
+            </div>
+            <div class="auth-form" id="signupForm" style="display: none;">
+                <h2>Inscription</h2>
+                <input type="email" id="signupEmail" placeholder="E-mail" />
+                <input type="password" id="signupPassword" placeholder="Mot de passe" />
+                <button id="signupBtn">S'inscrire</button>
+                <p>Vous avez déjà un compte ? <a href="#" id="showLogin">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Section -->
+    <div id="appSection" class="section" style="display: none;">
+        <div class="container">
+            <div class="header">
+                <h1>Mes Fichiers</h1>
+                <div class="user-info">
+                    <span id="userEmail"></span>
+                    <button id="logoutBtn">Déconnexion</button>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <h2>Télécharger des fichiers ou des photos</h2>
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" multiple accept="*/*" />
+                    <label for="fileInput" class="file-input-label">
+                        📁 Choisir des fichiers (sélection multiple)
+                    </label>
+                    <div id="fileCount"></div>
+                </div>
+                <button id="uploadBtn">Sauvegarder</button>
+                <div id="uploadProgress"></div>
+            </div>
+
+            <!-- View Files Button -->
+            <div class="view-section">
+                <button id="viewFilesBtn" class="view-btn">
+                    👁️ Voir mes fichiers sécurisés
+                </button>
+                <p class="view-description">Accédez à tous vos fichiers et photos chiffrés</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="storage.js"></script>
+    <script type="module" src="encryption.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

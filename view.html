@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voir les fichiers - Stockage de Fichiers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="view-styles.css">
+</head>
+<body>
+    <!-- Password Verification Section -->
+    <div id="verifySection" class="section">
+        <div class="container">
+            <h1>Vérification requise</h1>
+            <div class="auth-form">
+                <h2>Entrez votre mot de passe</h2>
+                <p>Pour accéder à vos fichiers sécurisés, veuillez confirmer votre mot de passe.</p>
+                <input type="password" id="verifyPassword" placeholder="Mot de passe" />
+                <button id="verifyBtn" style="margin-bottom:12px;">Vérifier</button>
+                <button id="backBtn" class="secondary-btn">Retour</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Files View Section -->
+    <div id="filesViewSection" class="section" style="display: none;">
+        <div class="container">
+            <div class="header">
+                <h1>Mes Fichiers Sécurisés</h1>
+                <div class="user-info">
+                    <span id="userEmail"></span>
+                    <button id="backToMainBtn" class="secondary-btn" style="padding:8px 24px;border-radius:6px;background:#667eea;color:#fff;border:none;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.07);transition:background 0.2s;cursor:pointer;">⟵ Retour</button>
+                </div>
+            </div>
+
+            <!-- Upload Section (Ajout de données) -->
+            <div class="upload-section" style="margin-bottom:32px;">
+                <h2>Ajouter des fichiers ou des photos</h2>
+                <div class="file-input-wrapper">
+                    <input type="file" id="viewFileInput" multiple accept="*/*" style="display:none;" />
+                    <label for="viewFileInput" class="file-input-label">
+                        📁 Choisir des fichiers (sélection multiple)
+                    </label>
+                    <div id="viewFileCount"></div>
+                </div>
+                <button id="viewUploadBtn" style="padding:12px 30px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:transform 0.2s;">Sauvegarder</button>
+                <div id="viewUploadProgress" style="margin-top:15px;color:#667eea;font-weight:500;"></div>
+            </div>
+
+            <!-- Selection Actions -->
+            <div class="selection-actions">
+                <button id="selectAllBtn">Tout sélectionner</button>
+                <button id="deselectAllBtn">Tout désélectionner</button>
+                <button id="downloadSelectedBtn" disabled>Télécharger la sélection (<span id="selectedCount">0</span>)</button>
+            </div>
+
+            <!-- Files grouped by type -->
+            <div id="groupedFiles">
+                <!-- Images -->
+                <div class="file-group" id="imagesGroup" style="display: none;">
+                    <h2>📷 Images</h2>
+                    <div class="files-grid" id="imagesList"></div>
+                </div>
+
+                <!-- Videos -->
+                <div class="file-group" id="videosGroup" style="display: none;">
+                    <h2>🎥 Vidéos</h2>
+                    <div class="files-grid" id="videosList"></div>
+                </div>
+
+                <!-- Documents -->
+                <div class="file-group" id="documentsGroup" style="display: none;">
+                    <h2>📄 Documents</h2>
+                    <div class="files-grid" id="documentsList"></div>
+                </div>
+
+                <!-- Other files -->
+                <div class="file-group" id="othersGroup" style="display: none;">
+                    <h2>📦 Autres</h2>
+                    <div class="files-grid" id="othersList"></div>
+                </div>
+
+                <!-- Empty state -->
+                <div id="emptyState" class="empty-state">
+                    <p>Aucun fichier trouvé</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="storage.js"></script>
+    <script type="module" src="encryption.js"></script>
+    <script type="module" src="view.js"></script>
+</body>
+</html>
