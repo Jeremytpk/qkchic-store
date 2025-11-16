@@ -146,11 +146,7 @@ uploadBtn.addEventListener('click', async () => {
     }
 
     // Get user password for encryption
-    const password = prompt('Entrez votre mot de passe pour chiffrer les fichiers:');
-    if (!password) {
-        alert('Mot de passe requis pour le chiffrement');
-        return;
-    }
+    // No password required for upload
 
     uploadBtn.disabled = true;
     uploadProgress.textContent = 'Téléchargement en cours...';
@@ -158,9 +154,9 @@ uploadBtn.addEventListener('click', async () => {
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         
-        uploadProgress.textContent = `Chiffrement et téléchargement de ${file.name} (${i + 1}/${files.length})...`;
+        uploadProgress.textContent = `Téléchargement de ${file.name} (${i + 1}/${files.length})...`;
 
-        const result = await uploadFile(file, password, (progress) => {
+        const result = await uploadFile(file, undefined, (progress) => {
             uploadProgress.textContent = `Téléchargement de ${file.name}: ${Math.round(progress)}%`;
         });
 

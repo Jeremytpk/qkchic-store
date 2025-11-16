@@ -66,18 +66,13 @@ if (viewUploadBtn) {
             alert('Veuillez sélectionner au moins un fichier');
             return;
         }
-        // Get user password for encryption
-        const password = prompt('Entrez votre mot de passe pour chiffrer les fichiers:');
-        if (!password) {
-            alert('Mot de passe requis pour le chiffrement');
-            return;
-        }
+        // No password required for upload
         viewUploadBtn.disabled = true;
         viewUploadProgress.textContent = 'Téléchargement en cours...';
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            viewUploadProgress.textContent = `Chiffrement et téléchargement de ${file.name} (${i + 1}/${files.length})...`;
-            const result = await uploadFile(file, password, (progress) => {
+            viewUploadProgress.textContent = `Téléchargement de ${file.name} (${i + 1}/${files.length})...`;
+            const result = await uploadFile(file, undefined, (progress) => {
                 viewUploadProgress.textContent = `Téléchargement de ${file.name}: ${Math.round(progress)}%`;
             });
             if (!result.success) {

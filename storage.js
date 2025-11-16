@@ -30,19 +30,14 @@ export async function uploadFile(file, password, onProgress) {
     }
 
     try {
-        console.log('uploadFile - Encrypting file...');
-        // Encrypt the file first
-        const encryptedFile = await encryptFile(file, password);
-        console.log('uploadFile - File encrypted:', encryptedFile.name);
-        
         // Create a reference to the file in storage
         const timestamp = Date.now();
-        const fileName = `${timestamp}_${encryptedFile.name}`;
+            const fileName = `${timestamp}_${file.name}`;
         const storageRef = ref(storage, `users/${user.uid}/${fileName}`);
         console.log('uploadFile - Storage path:', storageRef.fullPath);
 
         // Upload file with progress tracking
-        const uploadTask = uploadBytesResumable(storageRef, encryptedFile);
+            const uploadTask = uploadBytesResumable(storageRef, file);
 
         return new Promise((resolve, reject) => {
             uploadTask.on('state_changed',
@@ -69,7 +64,6 @@ export async function uploadFile(file, password, onProgress) {
                         const docRef = await addDoc(collection(db, 'files'), {
                             userId: user.uid,
                             fileName: file.name,
-                            encryptedFileName: encryptedFile.name,
                             storagePath: storageRef.fullPath,
                             downloadURL: downloadURL,
                             size: file.size,
